@@ -1,10 +1,10 @@
-# Integrated Agentic-Cybersecurity-Framework(IACSF)
+# Integrated-Agentic-Cybersecurity-Framework-IACSF
 All-in-One Holistic AI Agentic Cybersecurity Framework tailored for a more proactive protection across the Information  Technology(IT) Layers covering Infrastructures, Platforms, Applications and Data.  Practical Hands-On Security Tools that must align with the  Standard  Cybersecurity Frameworks such as ISO 27001, CIS, ISO 42001, Microsoft Cybersecurity Benchmark(MCSB).
 
-# Agentic-Cybersecurity-Research and Monitoring-Center
+# Agentic-Cybersecurity-Research-and-Monitoring-Center
 Tailoured to align with the IACSF as an Enforcer that ensures that the holistic Comtrols documented in the IACSF are implemented with the necessary Security tools for a sustainable, more resilient and more proactively  Secured Security Posture. The Security tools would be applied across the layers with necessary Agentic respomses and alerts. 
 
-# Agentic eLearning Security Management System
+# Agentic-eLearning-Security-Management-System
 Tailoured to further inspire Stakeholders, Employees, Security Policy Enforcers, End-Users, IT Professionals, Students and Clients to seamless Artificual Intelligence(AI) Agentic driven e-Learning Security Management System with necessary Certifications, Labs, Self-assessments and Certification curriculum in mind.
 
 # The Workflow
@@ -111,5 +111,3 @@ Code
 - **`Implementation.md`** → Detailed architecture guide 
 
 ---
-
-✅ With this structure, contributors know exactly how to set up Aspire, when to run `main.py` vs `runner.py`, and where to find deeper docs.  
