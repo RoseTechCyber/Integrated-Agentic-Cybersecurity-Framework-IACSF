@@ -1,2 +1,115 @@
-# Integrated-Agentic-Cybersecurity-Framework2
-All-in-One Holistic AI Agentic Cybersecurity Framework tailored for a more proactive protection across the Information Technology(IT) Layers covering Infrastructures, Platforms, Applications and Data. Practical Hands-On Security Tools that must align with the Standard Cybersecurity Frameworks such as Digital Forensics tools and others.
+# Integrated Agentic-Cybersecurity-Framework(IACSF)
+All-in-One Holistic AI Agentic Cybersecurity Framework tailored for a more proactive protection across the Information  Technology(IT) Layers covering Infrastructures, Platforms, Applications and Data.  Practical Hands-On Security Tools that must align with the  Standard  Cybersecurity Frameworks such as ISO 27001, CIS, ISO 42001, Microsoft Cybersecurity Benchmark(MCSB).
+
+# Agentic-Cybersecurity-Research and Monitoring-Center
+Tailoured to align with the IACSF as an Enforcer that ensures that the holistic Comtrols documented in the IACSF are implemented with the necessary Security tools for a sustainable, more resilient and more proactively  Secured Security Posture. The Security tools would be applied across the layers with necessary Agentic respomses and alerts. 
+
+# Agentic eLearning Security Management System
+Tailoured to further inspire Stakeholders, Employees, Security Policy Enforcers, End-Users, IT Professionals, Students and Clients to seamless Artificual Intelligence(AI) Agentic driven e-Learning Security Management System with necessary Certifications, Labs, Self-assessments and Certification curriculum in mind.
+
+# The Workflow
+The Agentic Security Research Center and Agentic eLearning Security Management System depend on the Integrated Agentic Cybersecurity Framework(IACSF) to run a trendy, productive  and result-oriented Agentic Security Research Center to ensure that ALL stakeholders are trained and governed with the necessary knwpledgeable tasks across the Security domains with  necessary Certifications well endorsed.
+
+A modular framework for reasoning agents, RAG pipelines, and hybrid inference, orchestrated with **Aspire**
+and the Integrated Agentic Ctversecurity Framework(IACSF) as the Main Orchestrator that must be running seamless Research Center and finally the eLearning Management System.
+
+# Workflow Tools and Hosting Envronment
+The AI Reasoning Agents such as Work IQ, Web IQ, and Foundty IQ, Azure-CosmosDB-Emulator, RAG/Vector Search, Foundry-Local, Aspire, are applied within each branch and across branches for a tightly coupled chain of Agentic Workfkows.
+
+# Collaborators
+Copilot Chat, GitHub-Copilot, Copliot Office 365.
+
+
+
+## 🚀 Quick Start
+
+### 1. Dev Setup
+- On Linux: run `scripts/dev_setup.sh`
+- On Windows: run `scripts/dev_setup.ps1`
+
+This installs Python, Docker, .NET SDK, Aspire CLI, and project dependencies.
+
+### 2. Orchestration
+Spin up services with Aspire:
+```bash
+aspire up --file Aspire.yml --non-interactive
+This starts:
+
+Cosmos DB Emulator
+
+Foundry-local
+
+FastAPI backend (main.py)
+
+ServiceDefaults
+
+3. Running the Backend
+API service (default):
+
+bash
+python web-app/backend/main.py
+Endpoints:
+
+GET /health
+
+POST /agents/run
+
+POST /rag/query
+
+Demo orchestrator:
+
+bash
+python runner.py
+Runs the EchoPlugin demo without API endpoints.
+
+🔧 Choosing Between main.py and runner.py
+Use main.py when you want to expose API endpoints for agents and RAG queries. This is the default entry point in Aspire.yml and CI/CD.
+
+Use runner.py when you want to run lightweight demos or test plugins locally without the API. Aspire.yml can be switched to run runner.py by changing the command field.
+
+📂 Project Structure
+agents/ → Reasoning agent core + orchestrator plugins
+
+web-app/backend/ → FastAPI backend (API endpoints)
+
+core.py → Orchestrator pipelines (agent runs + RAG queries)
+
+runner.py → Demo orchestrator (EchoPlugin example)
+
+Aspire.yml → Service orchestration (Cosmos DB Emulator, Foundry-local, backend)
+
+scripts/ → Dev setup scripts (Linux + Windows)
+
+.github/workflows/ci.yml → CI/CD pipeline (lint, test, Aspire integration)
+
+🔒 Security Notes
+Cosmos DB Emulator uses a dev key — do not use in production.
+
+No secrets or model binaries are committed. Use .env.example for environment variables.
+
+Hybrid inference (Azure/OpenAI) is off by default. Enable by setting USE_HYBRID=true and providing AZURE_OPENAI_ENDPOINT + AZURE_OPENAI_KEY.
+
+📘 Implementation Guide
+See Implementation.md for detailed architecture, including:
+
+Agent plugin design
+
+RAG pipeline flow
+
+Aspire orchestration
+
+CI/CD integration
+
+Code
+
+---
+
+## 📑 Supporting Docs
+
+- **`web-app/README.md`** → Focused on FastAPI backend usage, endpoints, and hybrid inference client.  
+- **`Security.md`** → Expanded notes on secrets management, emulator keys, and hybrid inference safeguards.  
+- **`Implementation.md`** → Detailed architecture guide 
+
+---
+
+✅ With this structure, contributors know exactly how to set up Aspire, when to run `main.py` vs `runner.py`, and where to find deeper docs.  

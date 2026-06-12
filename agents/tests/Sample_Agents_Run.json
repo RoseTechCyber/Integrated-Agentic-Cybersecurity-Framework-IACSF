@@ -1,0 +1,6 @@
+{
+  "id": "agent1",
+  "input": {"task": "summarize report"},
+  "foundry": {"data": "sample"},
+  "status": "completed"
+}
