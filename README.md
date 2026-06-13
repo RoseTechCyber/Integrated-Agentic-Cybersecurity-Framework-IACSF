@@ -3,7 +3,7 @@
   <img src="/iACSF-logo.png" alt="Integrated Agentic Cybersecurity Framework" height="100">
 
   <!-- MSBuild logo -->
-  <img src="/msbuild.png" alt="Microsoft Build 2026" height="100">
+  <img src="/MSBuild.PNG" alt="Microsoft Build 2026" height="100">
 
   <!-- Hackathon League logo -->
   <img src="/hack-league.jpg" alt="Hackathon League 2026" height="100">
