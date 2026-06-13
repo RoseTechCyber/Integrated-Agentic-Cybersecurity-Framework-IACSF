@@ -1,6 +1,6 @@
 <p align="center">
   <!-- Existing project logo -->
-  <img src="/iACSF-logo.png" alt="Integrated Agentic Cybersecurity Framework" height="200" width="300">
+  <img src="/iACSF-logo.png" alt="Integrated Agentic Cybersecurity Framework" height="200" width="400">
 
   <!-- MSBuild logo -->
   <img src="/MSBuild.PNG" alt="Microsoft Build 2026" height="200" width="300">
