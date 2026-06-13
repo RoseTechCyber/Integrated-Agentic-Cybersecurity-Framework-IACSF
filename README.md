@@ -9,8 +9,8 @@
   Agentic e‑Learning Security Management App
 </p>
 <p style="display:flex; justify-content:center; gap:20px; margin-top:20px;">
- <img src=" assets/msbuild.jpg" alt="Second image" width="200">
- <img src=" assets/hack-league.jpg" alt="Third image" width="200">
+ <img src=" /msbuild.jpg" alt="Second image" width="200">
+ <img src=" /hack-league.jpg" alt="Third image" width="200">
 </p>
 
 # Integrated-Agentic-Cybersecurity-Framework-IACSF
