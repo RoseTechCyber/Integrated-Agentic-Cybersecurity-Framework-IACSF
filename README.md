@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="assets/logo-iacsf.png" alt="IACSF Logo" width="220"/>
-</p>
+  <!-- Existing project logo -->
+  <img src="/iacsf-logo.png" alt="Project Logo" height="80">
 
-<h1 align="center">IACSF</h1>
-<h3 align="center"><b>Integrated Agentic Cybersecurity Framework</b></h3>
-<p align="center" style="color:#0057B8;">
-  Agentic Cybersecurity Research Center<br/>
-  Agentic e‑Learning Security Management App
+  <!-- MSBuild logo -->
+  <img src="/msbuild.jpg" alt="MSBuild Logo" height="80">
+
+  <!-- Hackathon League logo -->
+  <img src="/hack-league.jpg" alt="Hackathon League Logo" height="80">
 </p>
 
 # Integrated-Agentic-Cybersecurity-Framework-IACSF
