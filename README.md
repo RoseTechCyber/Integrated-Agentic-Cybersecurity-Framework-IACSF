@@ -1,6 +1,6 @@
 <p align="center">
   <!-- Existing project logo -->
-  <img src="/[iacsf-logo.png](https://github.com/RoseTechCyber/Integrated-Agentic-Cybersecurity-Framework-IACSF/blob/main/iACSF-logo.png)" alt="Integrated Agentic Cybersecurity Framework" height="80">
+  <img src="/iACSF-logo.png" alt="Integrated Agentic Cybersecurity Framework" height="80">
 
   <!-- MSBuild logo -->
   <img src="/[msbuild.png](https://github.com/RoseTechCyber/Integrated-Agentic-Cybersecurity-Framework-IACSF/blob/main/iACSF-logo.png)" alt="Microsoft Build 2026" height="80">
