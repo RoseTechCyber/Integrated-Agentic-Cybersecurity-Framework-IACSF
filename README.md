@@ -1,12 +1,12 @@
 <p align="center">
   <!-- Existing project logo -->
-  <img src="/iACSF-logo.png" alt="Integrated Agentic Cybersecurity Framework" height="100">
+  <img src="/iACSF-logo.png" alt="Integrated Agentic Cybersecurity Framework" height="200" width="200">
 
   <!-- MSBuild logo -->
-  <img src="/MSBuild.PNG" alt="Microsoft Build 2026" height="100">
+  <img src="/MSBuild.PNG" alt="Microsoft Build 2026" height="200" width="200">
 
   <!-- Hackathon League logo -->
-  <img src="/hack-league.jpg" alt="Hackathon League 2026" height="100">
+  <img src="/hack-league.jpg" alt="Hackathon League 2026" height="200" width="200">
 </p>
 
 # Integrated-Agentic-Cybersecurity-Framework-IACSF
