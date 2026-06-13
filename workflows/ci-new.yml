@@ -1,0 +1,46 @@
+  aspire-integration:
+    runs-on: ubuntu-latest
+    needs: [build-test-publish]
+    services:
+      cosmosdbemulator:
+        image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
+        ports:
+          - 8081:8081
+          - 10250-10254:10250-10254
+        options: --privileged
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install Aspire CLI
+        run: dotnet tool install --global Microsoft.Aspire.Cli
+
+      - name: Run Aspire services
+        run: aspire up --file aspire.yml --non-interactive & sleep 30
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install -r web-app/backend/requirements.txt
+
+      - name: Run Python app (main.py)
+        run: python web-app/backend/main.py
+
+      - name: Run orchestrator tests (core.py)
+        run: pytest tests/test_core.py -q
+
+      - name: Cosmos DB Integration Test
+        run: python tests/test_cosmos_integration.py
+
+      - name: FoundryService Integration Test
+        run: python tests/test_foundry_integration.py
+
+      - name: Combined Integration Test
+        run: pytest tests/test_integration.py -q
