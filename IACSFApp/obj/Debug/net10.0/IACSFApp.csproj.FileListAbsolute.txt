@@ -1,0 +1,14 @@
+C:\IACSF\IACSFApp\bin\Debug\net10.0\IACSFApp.exe
+C:\IACSF\IACSFApp\bin\Debug\net10.0\IACSFApp.deps.json
+C:\IACSF\IACSFApp\bin\Debug\net10.0\IACSFApp.runtimeconfig.json
+C:\IACSF\IACSFApp\bin\Debug\net10.0\IACSFApp.dll
+C:\IACSF\IACSFApp\bin\Debug\net10.0\IACSFApp.pdb
+C:\IACSF\IACSFApp\obj\Debug\net10.0\IACSFApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\IACSF\IACSFApp\obj\Debug\net10.0\IACSFApp.AssemblyInfoInputs.cache
+C:\IACSF\IACSFApp\obj\Debug\net10.0\IACSFApp.AssemblyInfo.cs
+C:\IACSF\IACSFApp\obj\Debug\net10.0\IACSFApp.csproj.CoreCompileInputs.cache
+C:\IACSF\IACSFApp\obj\Debug\net10.0\IACSFApp.dll
+C:\IACSF\IACSFApp\obj\Debug\net10.0\refint\IACSFApp.dll
+C:\IACSF\IACSFApp\obj\Debug\net10.0\IACSFApp.pdb
+C:\IACSF\IACSFApp\obj\Debug\net10.0\IACSFApp.genruntimeconfig.cache
+C:\IACSF\IACSFApp\obj\Debug\net10.0\ref\IACSFApp.dll

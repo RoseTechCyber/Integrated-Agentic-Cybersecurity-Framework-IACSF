@@ -1,0 +1,6 @@
+@IACSFApi_HostAddress = http://localhost:5110
+
+GET {{IACSFApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
