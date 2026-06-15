@@ -116,6 +116,70 @@ Vector search retrieving relevant controls.
 
 Aspire orchestrating Cosmos + WebApp + Python agent together.
 
+
+✅ Test Run Flow
+Local dev (fast)
+
+bash
+docker-compose up --build
+→ WebApp + Cosmos Emulator containers start.
+→ Access WebApp at http://localhost:5000.
+
+Aspire orchestration (full)
+
+powershell
+aspire run --file aspire.yml
+→ Same services, but with health checks + alerts.
+→ Check status with:
+
+powershell
+aspire ps
+CI/CD pipeline
+
+Push to main.
+
+GitHub Actions runs ci.yml.
+
+Builds WebApp, runs Aspire orchestration, executes Python reasoning agent tests, validates Cosmos RAG + Foundry integration.
+
+✅ This gives you two orchestration options:
+
+Compose for quick local runs.
+
+Aspire for orchestrated hosting, monitoring, and CI/CD.
+
+Agent Flow:
+
+Embeds the query.
+
+Performs vector similarity search in Cosmos DB.
+
+Finds closest match (e.g., A.7.1.1 Inventory of assets).
+
+Returns RAG-style answer.
+
+Response:
+
+json
+{
+  "answer": "You should maintain an inventory of assets, including ownership records and periodic reviews.",
+  "source": "ISO 27001:2022 - A.7.1.1"
+}
+✅ Next Test Run
+Place your JSON file in data/frameworks/iso27001_controls.json.
+
+Run Aspire:
+
+powershell
+aspire run --file aspire.yml
+Send a query to the reasoning agent:
+
+bash
+curl -X POST http://localhost:6000/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "What are the policies for information security?"}'
+The agent will return the mapped control (A.5.1.1 Policies for information security) with guidance and evidence requirements.
+
 [Watch the demo video](https://github.com/RoseTechCyber/Integrated-Agentic-Cybersecurity-Framework-IACSF/blob/main/Integrated-Agentic-Cybersecurity-Framework.mp4)
 
 
