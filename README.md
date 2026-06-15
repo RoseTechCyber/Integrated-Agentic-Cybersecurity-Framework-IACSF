@@ -274,5 +274,4 @@ Code
 - **`Security.md`** → Expanded notes on secrets management, emulator keys, and hybrid inference safeguards.  
 - **`Implementation.md`** → Detailed architecture guide 
 
----
-Proof-of-Concept
+--
