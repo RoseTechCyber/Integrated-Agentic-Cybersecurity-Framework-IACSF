@@ -33,15 +33,15 @@ Copilot Chat, GitHub-Copilot, Copliot Office 365.
 🌐 Core Services 
 Aspire Hosting Service
 
-Acts as the orchestrator for your projects.
+Acts as the orchestrator for all the projects.
 
-Manages lifecycle (start/stop) and ensures dependencies (like Cosmos Emulator) are available before WebApp runs.
+Manages lifecycle (start/stop) and ensures dependencies (like Cosmos Emulator) are available before IACSFWebApp runs.
 
 Aspire Orchestration Service
 
-Handles coordination between multiple projects (e.g., WebApp calling API).
+Handles coordination between multiple projects (e.g., IACSFWebApp calling API).
 
-Ensures correct startup order (Cosmos Emulator → API → WebApp).
+Ensures correct startup order (Cosmos Emulator → API → IACSFWebApp).
 
 Aspire Alerting/Monitoring Service
 
@@ -52,7 +52,7 @@ Can integrate with logging providers (e.g., Application Insights, Prometheus).
 ⚡ Supporting Infrastructure
 Foundry Service Integration
 
-Use Aspire’s orchestration to deploy your WebApp into Foundry.
+Use Aspire’s orchestration to deploy your IACSFWebApp into Foundry.
 
 Foundry handles hosting, Aspire ensures it’s wired correctly with dependencies.
 
@@ -60,20 +60,20 @@ Azure Cosmos DB Emulator
 
 Run locally in Docker.
 
-Aspire configures connection strings for your WebApp so it points to the emulator in dev/test.
+Aspire configures connection strings for  IACSFWebApp so it points to the emulator in dev/test.
 
 Docker Service
 
-Aspire can orchestrate containers (WebApp + Cosmos Emulator).
+Aspire can orchestrate containers (IACSFWebApp + Cosmos Emulator).
 
 Use docker-compose or Aspire’s container orchestration to spin them up together.
 
 📂 Typical Setup Flow
 Define Aspire Manifest
 
-Register services: WebApp, CosmosEmulator, FoundryHost.
+Register services: IACSFWebApp, CosmosEmulator, FoundryHost.
 
-Set dependencies (WebApp depends on CosmosEmulator).
+Set dependencies (IACSFWebApp depends on CosmosEmulator).
 
 Configure alerts (e.g., if CosmosEmulator is unreachable, trigger alert).
 
@@ -122,8 +122,8 @@ Local dev (fast)
 
 bash
 docker-compose up --build
-→ WebApp + Cosmos Emulator containers start.
-→ Access WebApp at http://localhost:5000.
+→ IACSFWebApp + Cosmos Emulator containers start.
+→ Access IACSFWebApp at http://localhost:5000.
 
 Aspire orchestration (full)
 
@@ -142,7 +142,7 @@ GitHub Actions runs ci.yml.
 
 Builds WebApp, runs Aspire orchestration, executes Python reasoning agent tests, validates Cosmos RAG + Foundry integration.
 
-✅ This gives you two orchestration options:
+✅ This gives  two orchestration options:
 
 Compose for quick local runs.
 
