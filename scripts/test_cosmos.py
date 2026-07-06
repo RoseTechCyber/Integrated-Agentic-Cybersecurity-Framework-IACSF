@@ -6,10 +6,10 @@ cosmos_key = os.getenv("COSMOSDB_KEY", "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+...==
 
 client = CosmosClient(cosmos_uri, credential=cosmos_key)
 
-# Example integration test setup
+# Example integration tetup
 database = client.create_database_if_not_exists(id="IACSF-DB")
 container = database.create_container_if_not_exists(
-    id="CyberSec-Framework",
+    id="Control",
     partition_key="/id",
     offer_throughput=400
 )
