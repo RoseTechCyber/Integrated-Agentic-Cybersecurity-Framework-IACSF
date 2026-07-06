@@ -1,4 +1,6 @@
 import json
+import os
+import pytest
 from azure.cosmos import CosmosClient
 from sentence_transformers import SentenceTransformer
 
@@ -10,10 +12,21 @@ with open("data/frameworks/iso27001_controls.json", "r") as f:
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
 # Connect to Cosmos Emulator
-client = CosmosClient("https://cosmos-emulator:8081", {"masterKey": "your-emulator-key"})
-database = client.create_database_if_not_exists(id="SecurityFrameworks")
-container = database.create_container_if_not_exists(id="Controls", partition_key="/id")
+@pytest.fixture(scope="module")
+def cosmos_container():
+    connection_string = os.getenv("COSMOSDB_CONNECTION_STRING")
+    database_id = os.getenv("COSMOSDB_DATABASE_NAME")
+    container_id = os.getenv("COSMOSDB_CONTAINER_NAME")
+	
+ if not connection_string:
+        raise ValueError("Please set COSMOSDB_CONNECTION_STRING environment variable.")
 
+    client = CosmosClient.from_connection_string(connection_string)
+    database = client.create_database_if_not_exists(id=database_id)
+    container = database.create_container_if_not_exists(
+        id=container_id,
+        partition_key=PartitionKey(path="/id")
+    )
 # Ingest controls into Cosmos with embeddings
 for domain, domain_data in controls_data["domains"].items():
     for control_id, control in domain_data["controls"].items():
