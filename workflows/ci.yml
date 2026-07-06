@@ -20,7 +20,7 @@
         run: dotnet tool install --global Microsoft.Aspire.Cli
 
       - name: Run Aspire services
-        run: aspire up --file aspire.yml --non-interactive & sleep 30
+        run: aspire run --file aspire.yml --non-interactive & sleep 30
 
       - name: Set up Python
         uses: actions/setup-python@v4
