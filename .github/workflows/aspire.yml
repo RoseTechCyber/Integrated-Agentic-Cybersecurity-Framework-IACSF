@@ -17,7 +17,7 @@ jobs:
       foundry:
         image: your-foundry-image:latest
         ports:
-          - "7000:7000"
+          - "8080:8080"
 
     steps:
       - uses: actions/checkout@v4
@@ -58,7 +58,7 @@ jobs:
       # --- Foundry readiness loop ---
       - name: Wait for Foundry service
         run: |
-          echo "Waiting for Foundry service on http://localhost:7000/health..."
+          echo "Waiting for Foundry service on http://localhost:8080/health..."
           for i in {1..30}; do
             curl -s http://localhost:7000/health && echo "Foundry is ready!" && break
             sleep 2
