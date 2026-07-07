@@ -1,0 +1,20 @@
+# Use official .NET runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 5000
+
+# Build stage
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY . .
+RUN dotnet restore IACSFWebApp.csproj
+RUN dotnet publish IACSFWebApp.csproj -c Release -o /app/publish
+
+# Final stage
+FROM base AS final
+WORKDIR /app
+COPY --from=build /app/publish .
+ENV ASPNETCORE_URLS=http://+:5000
+ENV CosmosDb__Endpoint=https://cosmos-emulator:8081
+ENV CosmosDb__Key=your-emulator-key
+ENTRYPOINT ["dotnet", "IACSFWebApp.dll"]
