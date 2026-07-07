@@ -30,6 +30,159 @@ The AI Reasoning Agents such as Work IQ, Web IQ, and Foundty IQ, Azure-CosmosDB-
 # Collaborators
 Copilot Chat, GitHub-Copilot, Copliot Office 365.
 
+🌐 Core Services 
+Aspire Hosting Service
+
+Acts as the orchestrator for all the projects.
+
+Manages lifecycle (start/stop) and ensures dependencies (like Cosmos Emulator) are available before IACSFWebApp runs.
+
+Aspire Orchestration Service
+
+Handles coordination between multiple projects (e.g., IACSFWebApp calling API).
+
+Ensures correct startup order (Cosmos Emulator → API → IACSFWebApp).
+
+Aspire Alerting/Monitoring Service
+
+Triggers alerts when health checks fail, or when resource usage crosses thresholds.
+
+Can integrate with logging providers (e.g., Application Insights, Prometheus).
+
+⚡ Supporting Infrastructure
+Foundry Service Integration
+
+Use Aspire’s orchestration to deploy your IACSFWebApp into Foundry.
+
+Foundry handles hosting, Aspire ensures it’s wired correctly with dependencies.
+
+Azure Cosmos DB Emulator
+
+Run locally in Docker.
+
+Aspire configures connection strings for  IACSFWebApp so it points to the emulator in dev/test.
+
+Docker Service
+
+Aspire can orchestrate containers (IACSFWebApp + Cosmos Emulator).
+
+Use docker-compose or Aspire’s container orchestration to spin them up together.
+
+📂 Typical Setup Flow
+Define Aspire Manifest
+
+Register services: IACSFWebApp, CosmosEmulator, FoundryHost.
+
+Set dependencies (IACSFWebApp depends on CosmosEmulator).
+
+Configure alerts (e.g., if CosmosEmulator is unreachable, trigger alert).
+
+Configure Alerts
+
+Health checks for WebApp and API endpoints.
+
+Resource monitoring (CPU/memory thresholds).
+
+Integration with email/Slack/Teams for notifications.
+
+Run Locally
+
+Aspire spins up Docker containers.
+
+Cosmos Emulator runs in one container, WebApp in another.
+
+Foundry service hosts WebApp when deployed.
+
+✅ Proof of Concept Run
+Aspire orchestration: run Cosmos Emulator, WebApp, and Python agent together.
+
+Agent ingestion: load JSON frameworks into Cosmos containers with embeddings.
+
+User query: send a natural language question.
+
+Vector search: Cosmos returns relevant controls.
+
+Generative model: Foundry service produces a RAG answer using retrieved context.
+
+This PoC shows the end‑to‑end pipeline: JSON frameworks → Cosmos NoSQL containers → embeddings → Aspire orchestration → Foundry generative model → contextual answers.
+
+This PoC demonstrates:
+
+JSON frameworks stored in Cosmos NoSQL containers.
+
+Embeddings created and stored.
+
+Vector search retrieving relevant controls.
+
+Aspire orchestrating Cosmos + WebApp + Python agent together.
+
+
+✅ Test Run Flow
+Local dev (fast)
+
+bash
+docker-compose up --build
+→ IACSFWebApp + Cosmos Emulator containers start.
+→ Access IACSFWebApp at http://localhost:5000.
+
+Aspire orchestration (full)
+
+powershell
+aspire run --file aspire.yml
+→ Same services, but with health checks + alerts.
+→ Check status with:
+
+powershell
+aspire ps
+CI/CD pipeline
+
+Push to main.
+
+GitHub Actions runs ci.yml.
+
+Builds WebApp, runs Aspire orchestration, executes Python reasoning agent tests, validates Cosmos RAG + Foundry integration.
+
+✅ This gives  two orchestration options:
+
+Compose for quick local runs.
+
+Aspire for orchestrated hosting, monitoring, and CI/CD.
+
+Agent Flow:
+
+Embeds the query.
+
+Performs vector similarity search in Cosmos DB.
+
+Finds closest match (e.g., A.7.1.1 Inventory of assets).
+
+Returns RAG-style answer.
+
+Response:
+
+json
+{
+  "answer": "You should maintain an inventory of assets, including ownership records and periodic reviews.",
+  "source": "ISO 27001:2022 - A.7.1.1"
+}
+✅ Next Test Run
+Place your JSON file in data/frameworks/iso27001_controls.json.
+
+Run Aspire:
+
+powershell
+aspire run --file aspire.yml
+Send a query to the reasoning agent:
+
+bash
+curl -X POST http://localhost:6000/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "What are the policies for information security?"}'
+The agent will return the mapped control (A.5.1.1 Policies for information security) with guidance and evidence requirements.
+
+[Watch the demo video](https://github.com/RoseTechCyber/Integrated-Agentic-Cybersecurity-Framework-IACSF/blob/main/Integrated-Agentic-Cybersecurity-Framework.mp4)
+
+
 
 
 ## 🚀 Quick Start
@@ -121,4 +274,4 @@ Code
 - **`Security.md`** → Expanded notes on secrets management, emulator keys, and hybrid inference safeguards.  
 - **`Implementation.md`** → Detailed architecture guide 
 
----
+--

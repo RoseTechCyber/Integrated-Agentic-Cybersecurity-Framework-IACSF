@@ -1,0 +1,39 @@
+name: Build and Deploy WebApp
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      cosmos-emulator:
+        image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator
+        ports:
+          - 8081:8081
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore IACSFWebApp/IACSFWebApp.csproj
+
+      - name: Build WebApp
+        run: dotnet build IACSFWebApp/IACSFWebApp.csproj --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test IACSFWebApp/IACSFWebApp.csproj --no-build --verbosity normal
+
+      - name: Publish WebApp
+        run: dotnet publish IACSFWebApp/IACSFWebApp.csproj -c Release -o out
+
+      - name: Deploy to Foundry
+        run: |
+          echo "Deploying WebApp to Foundry..."
+          # Replace with Foundry CLI or API deployment command

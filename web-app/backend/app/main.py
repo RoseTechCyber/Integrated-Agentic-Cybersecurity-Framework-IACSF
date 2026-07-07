@@ -1,34 +1,46 @@
+import json
 import os
-import httpx
-from fastapi import FastAPI
-from pydantic import BaseModel
-from typing import Any, Dict
-import asyncio
+import pytest
+from azure.cosmos import CosmosClient
+from sentence_transformers import SentenceTransformer
 
-# Import orchestrator functions
-from core import run_agent_pipeline, rag_query_pipeline
+# Load ISO 27001 controls JSON
+with open("data/frameworks/iso27001_controls.json", "r") as f:
+    controls_data = json.load(f)
 
-app = FastAPI(title="IACSF Web API")
+# Initialize embedding model
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
-@app.get("/health")
-def health():
-    return {"status": "ok"}
+# Connect to Cosmos Emulator
+@pytest.fixture(scope="module")
+def cosmos_container():
+    connection_string = os.getenv("COSMOSDB_CONNECTION_STRING")
+    database_id = os.getenv("COSMOSDB_DATABASE_NAME")
+    container_id = os.getenv("COSMOSDB_CONTAINER_NAME")
+	
+ if not connection_string:
+        raise ValueError("Please set COSMOSDB_CONNECTION_STRING environment variable.")
 
-class AgentRunRequest(BaseModel):
-    agent: str
-    input: Dict[str, Any]
+    client = CosmosClient.from_connection_string(connection_string)
+    database = client.create_database_if_not_exists(id=database_id)
+    container = database.create_container_if_not_exists(
+        id=container_id,
+        partition_key=PartitionKey(path="/id")
+    )
+# Ingest controls into Cosmos with embeddings
+for domain, domain_data in controls_data["domains"].items():
+    for control_id, control in domain_data["controls"].items():
+        embedding = model.encode(control["description"]).tolist()
+        container.upsert_item({
+            "id": control["id"],
+            "title": control["title"],
+            "description": control["description"],
+            "embedding": embedding,
+            "mappings": {
+                "cis": control.get("cis_mapping", []),
+                "nist": control.get("nist_csf_mapping", []),
+                "cisa": control.get("cisa_mapping", [])
+            }
+        })
 
-@app.post("/agents/run")
-async def run_agent(req: AgentRunRequest):
-    # Call orchestrator pipeline
-    result = await run_agent_pipeline(req.agent, req.input)
-    return result
-
-class RAGQuery(BaseModel):
-    query: str
-
-@app.post("/rag/query")
-async def rag_query(q: RAGQuery):
-    # Call orchestrator pipeline
-    result = await rag_query_pipeline(q.query)
-    return result
+print("ISO 27001 controls ingested with embeddings.")
