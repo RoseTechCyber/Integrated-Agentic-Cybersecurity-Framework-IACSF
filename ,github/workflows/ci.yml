@@ -1,0 +1,61 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-test-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Build & Test
+        run: |
+          dotnet restore
+          dotnet build --configuration Release
+          dotnet test --no-build
+
+  docker-compose-integration:
+    needs: [build-test-publish]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker images and start services
+        run: docker-compose -f docker-compose.yml up -d --build
+
+      - name: Wait for Cosmos DB Emulator
+        run: |
+          for i in {1..30}; do
+            curl -k https://localhost:8081/_explorer/emulator.pem && echo "Cosmos DB Emulator is ready!" && break
+            sleep 2
+          done
+
+      - name: Wait for Foundry
+        run: |
+          for i in {1..30}; do
+            curl -s http://localhost:8080/health && echo "Foundry is ready!" && break
+            sleep 2
+          done
+
+      - name: Run integration tests
+        run: pytest tests/test_integration.py -q
+
+  aspire-integration:
+    needs: [docker-compose-integration]
+    uses: ./.github/workflows/aspire.yml   # calls Aspire workflow
