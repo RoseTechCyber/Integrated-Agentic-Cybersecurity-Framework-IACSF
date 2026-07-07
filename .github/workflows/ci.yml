@@ -26,9 +26,9 @@ jobs:
 
       - name: Build & Test
         run: |
-          dotnet restore
-          dotnet build --configuration Release
-          dotnet test --no-build
+          dotnet restore IACSF.sln
+          dotnet build IACSF.sln --configuration Release
+          dotnet test IACSF.sln --no-build
 
   docker-compose-integration:
     needs: [build-test-publish]
