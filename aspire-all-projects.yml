@@ -1,0 +1,111 @@
+name: Aspire CI with Cosmos DB Emulator and Foundry
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      cosmos-emulator:
+        image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
+        ports:
+          - "8081:8081"
+          - "10250-10254:10250-10254"
+        options: --privileged
+
+      foundry:
+        image: your-foundry-image:latest
+        ports:
+          - "8080:8080"
+
+      iacsf-webapp:
+        build: ./IACSFWebApp
+        command: dotnet run --urls http://0.0.0.0:5000
+        ports:
+          - "5000:5000"
+        depends_on:
+          - cosmos-emulator
+          - foundry
+
+      iacsf-api:
+        build: ./IACSFApi
+        command: dotnet run --urls http://0.0.0.0:5001
+        ports:
+          - "5001:5001"
+        depends_on:
+          - cosmos-emulator
+          - foundry
+
+      iacsf-app:
+        build: ./IACSFApp
+        command: dotnet run --urls http://0.0.0.0:5002
+        ports:
+          - "5002:5002"
+        depends_on:
+          - cosmos-emulator
+          - foundry
+
+      iacsf-servicedefaults:
+        build: ./IACSFServiceDefaults
+        command: dotnet run --urls http://0.0.0.0:5003
+        ports:
+          - "5003:5003"
+        depends_on:
+          - cosmos-emulator
+          - foundry
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build all projects
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Wait for Foundry service to be ready
+        run: |
+          for i in {1..30}; do
+            curl -s http://localhost:8080/health || true
+            if [ $? -eq 0 ]; then
+              echo "Foundry service is up!"
+              break
+            fi
+            sleep 2
+          done
+
+      - name: Run tests
+        run: dotnet test --no-build --logger "trx;LogFileName=test_results.trx"
+
+      - name: Publish test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: **/TestResults/test_results.trx
+
+      - name: Publish WebApp
+        run: dotnet publish IACSFWebApp/IACSFWebApp.csproj -c Release -o out
+
+      - name: Deploy to Foundry
+        run: |
+          echo "Deploying WebApp, API, App, and ServiceDefaults to Aspire Foundry..."
+          # Replace with Foundry CLI or API deployment command

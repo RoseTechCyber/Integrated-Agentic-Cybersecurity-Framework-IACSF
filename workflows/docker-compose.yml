@@ -1,0 +1,30 @@
+name: Docker Compose Integration
+
+on:
+  workflow_call:   # allows ci.yml to call this workflow
+
+jobs:
+  docker-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Compose
+        run: docker-compose -f docker-compose.yml up -d --build
+
+      - name: Wait for Cosmos DB Emulator
+        run: |
+          for i in {1..30}; do
+            curl -k https://localhost:8081/_explorer/emulator.pem && echo "Cosmos DB Emulator is ready!" && break
+            sleep 2
+          done
+
+      - name: Wait for Foundry
+        run: |
+          for i in {1..30}; do
+            curl -s http://localhost:7000/health && echo "Foundry is ready!" && break
+            sleep 2
+          done
+
+      - name: Run integration tests
+        run: pytest tests/test_integration.py -q

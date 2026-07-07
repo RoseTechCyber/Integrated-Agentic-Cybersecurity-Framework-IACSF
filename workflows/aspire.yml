@@ -1,40 +1,96 @@
-version: "1.0"
+name: Aspire Integration Workflow
 
-services:
-  python-app:
-    image: python:3.11
-    command: ["python", "web-app/backend/main.py"]
-    ports:
-      - 5000:5000
-    environment:
-      - COSMOSDB_URI=https://cosmosdbemulator:8081
-      - COSMOSDB_KEY=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+...==
-      - FOUNDRY_URL=http://foundry-local:7000
-    depends_on:
-      - cosmosdbemulator
-      - foundry-local
+on:
+  workflow_call:
 
-  aspire-service-defaults:
-    build:
-      context: ./IACSF/IACSF.ServiceDefaults
-    project: Aspire.ServiceDefaults.csproj
-    ports:
-      - 8080:8080
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    services:
+      cosmosdbemulator:
+        image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
+        ports:
+          - 8081:8081
+          - 10250-10254:10250-10254
+        options: --privileged
 
-  cosmosdbemulator:
-    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
-    ports:
-      - 8081:8081
-      - 10250:10250
-      - 10251:10251
-      - 10252:10252
-      - 10253:10253
-      - 10254:10254
-    environment:
-      - AZURE_COSMOS_EMULATOR_PARTITION_COUNT=3
-      - AZURE_COSMOS_EMULATOR_ENABLE_DATA_PERSISTENCE=true
+      foundry:
+        image: your-foundry-image:latest
+        ports:
+          - "7000:7000"
 
-  foundry-local:
-    image: my-foundry-local:latest
-    ports:
-      - 7000:7000
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      # --- NuGet caching ---
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Install Aspire CLI
+        run: dotnet tool install --global Microsoft.Aspire.Cli
+
+      # --- Docker build for reasoning agent ---
+      - name: Build reasoning agent Docker image
+        run: docker build -t reasoning-agent ./web-app/backend
+
+      - name: Run Aspire services
+        run: aspire run --file aspire.yml --non-interactive & sleep 30
+
+      # --- Cosmos DB readiness loop ---
+      - name: Wait for Cosmos DB Emulator
+        run: |
+          echo "Waiting for Cosmos DB Emulator..."
+          for i in {1..30}; do
+            curl -k https://localhost:8081/_explorer/emulator.pem && echo "Cosmos DB Emulator is ready!" && break
+            sleep 2
+          done
+
+      # --- Foundry readiness loop ---
+      - name: Wait for Foundry service
+        run: |
+          echo "Waiting for Foundry service on http://localhost:7000/health..."
+          for i in {1..30}; do
+            curl -s http://localhost:7000/health && echo "Foundry is ready!" && break
+            sleep 2
+          done
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install -r web-app/backend/requirements.txt
+
+      # --- Conditional execution ---
+      - name: Run WebApp only (PR)
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "Running WebApp only for PR validation..."
+          dotnet publish IACSFWebApp/IACSFWebApp.csproj -c Release -o out
+          pytest tests/test_core.py -q
+
+      - name: Run full integration (Push to main)
+        if: github.event_name == 'push'
+        run: |
+          echo "Running full Aspire integration (WebApp + Api + App + ServiceDefaults)..."
+          dotnet publish IACSFWebApp/IACSFWebApp.csproj -c Release -o out
+          dotnet publish IACSFApi/IACSFApi.csproj -c Release -o out
+          dotnet publish IACSFApp/IACSFApp.csproj -c Release -o out
+          dotnet publish IACSFServiceDefaults/IACSFServiceDefaults.csproj -c Release -o out
+
+          python web-app/backend/main.py
+          pytest tests/test_core.py -q
+          python tests/test_cosmos_integration.py
+          python tests/test_foundry_integration.py
+          pytest tests/test_integration.py -q

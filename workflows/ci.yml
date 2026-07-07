@@ -1,13 +1,13 @@
-  aspire-integration:
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-test-publish:
     runs-on: ubuntu-latest
-    needs: [build-test-publish]
-    services:
-      cosmosdbemulator:
-        image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
-        ports:
-          - 8081:8081
-          - 10250-10254:10250-10254
-        options: --privileged
     steps:
       - uses: actions/checkout@v4
 
@@ -16,31 +16,46 @@
         with:
           dotnet-version: '8.0.x'
 
-      - name: Install Aspire CLI
-        run: dotnet tool install --global Microsoft.Aspire.Cli
-
-      - name: Run Aspire services
-        run: aspire run --file aspire.yml --non-interactive & sleep 30
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
         with:
-          python-version: '3.11'
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
-      - name: Install Python dependencies
-        run: pip install -r web-app/backend/requirements.txt
+      - name: Build & Test
+        run: |
+          dotnet restore
+          dotnet build --configuration Release
+          dotnet test --no-build
 
-      - name: Run Python app (main.py)
-        run: python web-app/backend/main.py
+  docker-compose-integration:
+    needs: [build-test-publish]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-      - name: Run orchestrator tests (core.py)
-        run: pytest tests/test_core.py -q
+      - name: Build Docker images and start services
+        run: docker-compose -f docker-compose.yml up -d --build
 
-      - name: Cosmos DB Integration Test
-        run: python tests/test_cosmos_integration.py
+      - name: Wait for Cosmos DB Emulator
+        run: |
+          for i in {1..30}; do
+            curl -k https://localhost:8081/_explorer/emulator.pem && echo "Cosmos DB Emulator is ready!" && break
+            sleep 2
+          done
 
-      - name: FoundryService Integration Test
-        run: python tests/test_foundry_integration.py
+      - name: Wait for Foundry
+        run: |
+          for i in {1..30}; do
+            curl -s http://localhost:7000/health && echo "Foundry is ready!" && break
+            sleep 2
+          done
 
-      - name: Combined Integration Test
+      - name: Run integration tests
         run: pytest tests/test_integration.py -q
+
+  aspire-integration:
+    needs: [docker-compose-integration]
+    uses: ./.github/workflows/aspire.yml   # calls Aspire workflow
