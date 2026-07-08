@@ -5,10 +5,10 @@ using Microsoft.Extensions.Hosting;
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-// Simple health check endpoint
+// Health check endpoint for CI readiness
 app.MapGet("/status", () => Results.Ok(new { status = "Foundry Service is running" }));
 
-// Root endpoint (optional)
+// Optional root endpoint
 app.MapGet("/", () => "Hello from Foundry Service!");
 
 app.Run();
