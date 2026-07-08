@@ -46,27 +46,33 @@ jobs:
       - name: Write docker-compose.override.yml
         run: |
           cat > docker-compose.override.yml <<'EOF'
-          version: "3.9"
-          services:
-            cosmosdbemulator:
-              image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
-              ports:
-                - "8081:8081"
-                - "10250-10254:10250-10254"
-              privileged: true
+              version: "3.9"
+services:
+  cosmosdbemulator:
+    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
+    ports:
+      - "8081:8081"
+      - "10250-10254:10250-10254"
+    privileged: true
 
-            foundry:
-              image: foundry-service:latest
-              ports:
-                - "8080:8080"
+  foundry:
+    build:
+      context: ./foundry
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
 
-            reasoning-agent:
-              image: reasoning-agent:latest
-              ports:
-                - "9090:9090"
-              depends_on:
-                - cosmosdbemulator
-                - foundry
+  reasoning-agent:
+    build:
+      context: ./web-app/backend
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    depends_on:
+      - cosmosdbemulator
+      - foundry
+
+          
           EOF
 
       - name: Build and start services
