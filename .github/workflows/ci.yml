@@ -47,11 +47,12 @@ jobs:
               privileged: true
 
             foundry:
-              image: your-foundry-image:latest
-              ports:
-                - "8080:8080"
-
-            reasoning-agent:
+            image: your-foundry-image:latest
+            ports:
+                - "5280:5280"
+           UseLocalService: true
+              
+           reasoning-agent:
               build:
                 context: ./web-app/backend
                 dockerfile: Dockerfile
