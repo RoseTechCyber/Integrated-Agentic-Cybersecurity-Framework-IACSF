@@ -9,14 +9,13 @@ var cosmosEmulator = builder.AddContainer("cosmosdbemulator", "mcr.microsoft.com
     .WithPrivileged();
 
 // Foundry Service
-var foundryService = builder.AddContainer("foundry-service", "foundry-service:latest")
-    .WithHttpEndpoint(port: 8080, targetPort: 80);
+var foundryService = builder.AddProject<IACSFWebApp>("foundry-service")
+    .WithHttpEndpoint(port: 8080);
 
 // Reasoning Agent
-var reasoningAgent = builder.AddContainer("reasoning-agent", "reasoning-agent:latest")
-    .WithHttpEndpoint(port: 9090, targetPort: 80)
+var reasoningAgent = builder.AddProject<IACSFApp>("reasoning-agent")
+    .WithHttpEndpoint(port: 9090)
     .WithReference(cosmosEmulator)
     .WithReference(foundryService);
 
 builder.Build().Run();
-
