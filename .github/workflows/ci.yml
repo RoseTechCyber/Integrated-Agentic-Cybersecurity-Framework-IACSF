@@ -47,9 +47,9 @@ jobs:
               privileged: true
 
             foundry:
-            image: your-foundry-image:latest
+            image: foundryservice:latest
             ports:
-                - "5280:5280"
+                - "8080:8080"
            UseLocalService: true
               
            reasoning-agent:
@@ -57,7 +57,7 @@ jobs:
                 context: ./web-app/backend
                 dockerfile: Dockerfile
               ports:
-                - "5000:5000"
+                - "9090:9090"
               depends_on:
                 - cosmosdbemulator
                 - foundry
@@ -76,7 +76,7 @@ jobs:
       - name: Wait for Foundry
         run: |
           for i in {1..30}; do
-            curl -s http://localhost:5280/status && echo "Foundry is ready!" && break
+            curl -s http://localhost:8080/status && echo "Foundry is ready!" && break
             sleep 2
           done
 
