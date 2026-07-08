@@ -36,7 +36,7 @@ jobs:
 
       # Build Foundry Service image locally
       - name: Build Foundry Service image
-        run: docker build -t foundry-service:latest ./foundry
+        run: docker build -t foundry-service:latest ./IACSFWebApp
 
       # Build Reasoning Agent image locally
       - name: Build Reasoning Agent image
@@ -57,7 +57,7 @@ services:
 
   foundry:
     build:
-      context: ./foundry
+      context: ./IACSFWebApp
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
@@ -70,10 +70,8 @@ services:
       - "9090:9090"
     depends_on:
       - cosmosdbemulator
-      - foundry
-
-          
-          EOF
+      - foundry  
+       EOF
 
       - name: Build and start services
         run: docker compose -f docker-compose.override.yml up -d --build
