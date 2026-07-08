@@ -1,2 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+app.MapGet("/status", () => Results.Ok(new { status = "Reasoning Agent running" }));
+app.MapGet("/", () => "Hello from Reasoning Agent!");
+
+app.Run();
+﻿
