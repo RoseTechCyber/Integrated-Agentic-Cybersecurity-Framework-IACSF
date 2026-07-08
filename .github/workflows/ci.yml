@@ -38,11 +38,11 @@ jobs:
 
       # Build Foundry Service image
       - name: Build Foundry Service image
-        run: docker build -t foundry-service:latest ./IACSFWebApp
+        run: docker build -t foundry-service:latest ./IACSFWebApp/Dockerfile
 
       # Build Reasoning Agent image
       - name: Build Reasoning Agent image
-        run: docker build -t reasoning-agent:latest ./IACSFApp
+        run: docker build -t reasoning-agent:latest ./IACSFApp/Dockerfile
 
       # Write docker-compose.override.yml
       - name: Write docker-compose.override.yml
