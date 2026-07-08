@@ -47,7 +47,6 @@ jobs:
         run: |
           cat > docker-compose.override.yml <<'EOF'
               version: "3.9"
-services:
   cosmosdbemulator:
     image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
     ports:
