@@ -6,25 +6,30 @@ on:
   pull_request:
 
 jobs:
+  # Step 1: Build and test your .NET solution
   build-test-publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
+
       - uses: actions/cache@v3
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
+
       - name: Build & Test
         run: |
           dotnet restore IACSFWebApp.slnx
           dotnet build IACSFWebApp.slnx --configuration Release
           dotnet test IACSFWebApp.slnx --no-build
-          
+
+  # Step 2: Build local Docker images and run integration with Compose
   docker-compose-integration:
     needs: [build-test-publish]
     runs-on: ubuntu-latest
@@ -42,35 +47,32 @@ jobs:
       - name: Build Reasoning Agent image
         run: docker build -t reasoning-agent:latest ./web-app/backend
 
-      # Define services inline
+      # Write docker-compose.override.yml
       - name: Write docker-compose.override.yml
         run: |
           cat > docker-compose.override.yml <<'EOF'
-              version: "3.9"
-  cosmosdbemulator:
-    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
-    ports:
-      - "8081:8081"
-      - "10250-10254:10250-10254"
-    privileged: true
+          version: "3.9"
+          services:
+            cosmosdbemulator:
+              image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
+              ports:
+                - "8081:8081"
+                - "10250-10254:10250-10254"
+              privileged: true
 
-  foundry:
-    build:
-      context: ./IACSFWebApp
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
+            foundry:
+              image: foundry-service:latest
+              ports:
+                - "8080:8080"
 
-  reasoning-agent:
-    build:
-      context: ./web-app/backend
-      dockerfile: Dockerfile
-    ports:
-      - "9090:9090"
-    depends_on:
-      - cosmosdbemulator
-      - foundry  
-       EOF
+            reasoning-agent:
+              image: reasoning-agent:latest
+              ports:
+                - "9090:9090"
+              depends_on:
+                - cosmosdbemulator
+                - foundry
+          EOF
 
       - name: Build and start services
         run: docker compose -f docker-compose.override.yml up -d --build
@@ -92,11 +94,12 @@ jobs:
       - name: Run integration tests
         run: pytest tests/test_integration.py -q
 
-
+  # Step 3: Run Aspire integration workflow
   aspire-integration:
     needs: [docker-compose-integration]
     uses: ./.github/workflows/aspire.yml
 
+  # Step 4: Tear down services
   docker-teardown:
     needs: [aspire-integration]
     runs-on: ubuntu-latest
