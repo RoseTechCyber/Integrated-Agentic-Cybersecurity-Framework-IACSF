@@ -54,7 +54,7 @@ jobs:
               username: ${{ secrets.ACR_USERNAME }}
               password: ${{ secrets.ACR_PASSWORD }}
 
-        image: foundryservice:latest
+        image: myfoundryregistry.azurecr.io/foundry-service:latest
         ports:
               - "8080:8080"
        UseLocalService: true
