@@ -1,27 +1,14 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Aspire.Hosting;
 
-var builder = DistributedApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
 
-// Cosmos DB Emulator
-var cosmosEmulator = builder.AddContainer("cosmosdbemulator", "mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest")
-    .WithHttpEndpoint(port: 8081, targetPort: 8081)
-    .WithEndpoint(port: 10250, targetPort: 10250, isTcp: true)
-    .WithEndpoint(port: 10251, targetPort: 10251, isTcp: true)
-    .WithEndpoint(port: 10252, targetPort: 10252, isTcp: true)
-    .WithEndpoint(port: 10253, targetPort: 10253, isTcp: true)
-    .WithEndpoint(port: 10254, targetPort: 10254, isTcp: true)
-    .WithPrivileged();
+// Simple health check endpoint
+app.MapGet("/status", () => Results.Ok(new { status = "Foundry Service is running" }));
 
-// Foundry Service (local image)
-var foundryService = builder.AddContainer("foundry-service", "foundry-service:latest")
-    .WithHttpEndpoint(port: 8080, targetPort: 80);
+// Root endpoint (optional)
+app.MapGet("/", () => "Hello from Foundry Service!");
 
-// Reasoning Agent (local image)
-var reasoningAgent = builder.AddContainer("reasoning-agent", "reasoning-agent:latest")
-    .WithHttpEndpoint(port: 9090, targetPort: 80)
-    .WithReference(cosmosEmulator)
-    .WithReference(foundryService);
-
-builder.Build().Run();
-
+app.Run();
