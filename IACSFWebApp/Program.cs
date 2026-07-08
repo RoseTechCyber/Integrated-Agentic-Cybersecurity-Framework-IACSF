@@ -19,8 +19,15 @@ builder.Services.AddSingleton<CosmosClient>(sp =>
     return new CosmosClient(endpointUri, primaryKey);
 });
 
+   var foundryService = builder.AddContainer("foundry-service", acr)
+    .WithImage("foundry-service")
+    .WithTag("latest")
+    .WithRegistry(acr)
+    .WithHttpEndpoint(port: 8080, targetPort: 80);
+
+
 // Register HTTP client for Foundry Service (port 8080)
-builder.Services.AddHttpClient("FoundryService", client =>
+builder.Services.AddHttpClient("foundry-service", client =>
 {
     client.BaseAddress = new Uri("http://localhost:8080"); 
 });
