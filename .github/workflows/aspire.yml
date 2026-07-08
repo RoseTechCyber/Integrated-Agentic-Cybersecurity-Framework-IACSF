@@ -33,7 +33,6 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      # --- NuGet caching ---
       - name: Cache NuGet packages
         uses: actions/cache@v3
         with:
@@ -45,28 +44,27 @@ jobs:
       - name: Install Aspire CLI
         run: dotnet tool install --global Microsoft.Aspire.Cli
 
-      # --- Docker build for reasoning agent (if not already built in previous job) ---
-      - name: Build reasoning agent Docker image
-        run: docker build -t reasoning-agent ./web-app/backend
-
       - name: Run Aspire services
         run: aspire run --file aspire.yml --non-interactive & sleep 30
 
-      # --- Cosmos DB readiness loop ---
       - name: Wait for Cosmos DB Emulator
         run: |
-          echo "Waiting for Cosmos DB Emulator..."
           for i in {1..30}; do
             curl -k https://localhost:8081/_explorer/emulator.pem && echo "Cosmos DB Emulator is ready!" && break
             sleep 2
           done
 
-      # --- Foundry readiness loop ---
       - name: Wait for Foundry service
         run: |
-          echo "Waiting for Foundry service on http://localhost:8080/status..."
           for i in {1..30}; do
             curl -s http://localhost:8080/status && echo "Foundry is ready!" && break
+            sleep 2
+          done
+
+      - name: Wait for Reasoning Agent
+        run: |
+          for i in {1..30}; do
+            curl -s http://localhost:9090/status && echo "Reasoning Agent is ready!" && break
             sleep 2
           done
 
@@ -78,24 +76,17 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r web-app/backend/requirements.txt
 
-      # --- Conditional execution ---
       - name: Run WebApp only (PR)
         if: github.event_name == 'pull_request'
         run: |
-          echo "Running WebApp only for PR validation..."
-          dotnet publish IACSFWebApp/IACSFWebApp.csproj -c Release -o out
+          dotnet publish IACSFApp/IACSFWebApp.csproj -c Release -o out
           pytest tests/test_core.py -q
 
       - name: Run full integration (Push to main)
         if: github.event_name == 'push'
         run: |
-          echo "Running full Aspire integration (WebApp + Api + App + ServiceDefaults)..."
           dotnet publish IACSFWebApp/IACSFWebApp.csproj -c Release -o out
-          dotnet publish IACSFApi/IACSFApi.csproj -c Release -o out
           dotnet publish IACSFApp/IACSFApp.csproj -c Release -o out
-          dotnet publish IACSFServiceDefaults/IACSFServiceDefaults.csproj -c Release -o out
-
-          python web-app/backend/main.py
           pytest tests/test_core.py -q
           python tests/test_cosmos_integration.py
           python tests/test_foundry_integration.py
