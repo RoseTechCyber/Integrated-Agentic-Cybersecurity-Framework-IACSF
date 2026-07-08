@@ -1,53 +1,22 @@
-version: "3.9"
-name: Docker Compose Integration
-
-on:
-  workflow_call:   # allows ci.yml to call this workflow
-
-jobs:
-  docker-integration:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Docker Compose
-        run: docker-compose -f docker-compose.yml up -d --build
-		
-		
 services:
-    cosmosdbemulator:
-	  image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
+  cosmosdbemulator:
+    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
     ports:
       - "8081:8081"
       - "10250-10254:10250-10254"
-    privileged: true   
-      - name: Wait for Cosmos DB Emulator
-        run: |
-          for i in {1..30}; do
-            curl -k https://localhost:8081/_explorer/emulator.pem && echo "Cosmos DB Emulator is ready!" && break
-            sleep 2
-          done
-		  
-   foundry:
-    image: your-foundry-image:latest
+    privileged: true
+
+  foundry:
+    image: foundry-service:latest
     ports:
       - "8080:8080"
-      - name: Wait for Foundry
-        run: |
-          for i in {1..30}; do
-            curl -s http://localhost:8080/health && echo "Foundry is ready!" && break
-            sleep 2
-          done
-		  
-   reasoning-agent:
+
+  reasoning-agent:
     build:
       context: ./web-app/backend
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "9090:9090"
     depends_on:
       - cosmosdbemulator
-      - foundry  
-
-    - name: Run integration tests
-        run: pytest tests/test_integration.py -q
+      - foundry
