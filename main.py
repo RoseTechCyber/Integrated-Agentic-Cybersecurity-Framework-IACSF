@@ -31,7 +31,7 @@ def cosmos_container():
 
 # Ingest controls into Cosmos with embeddings
 for domain, domain_data in controls_data["domains"].items():
-    for control_id, control in domain_data["controls"].items():
+    for control_id, control in domain_data["control"].items():
         embedding = model.encode(control["description"]).tolist()
         container.upsert_item({
             "id": control["id"],
