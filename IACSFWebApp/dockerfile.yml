@@ -14,7 +14,4 @@ RUN dotnet publish IACSFWebApp.csproj -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
-ENV ASPNETCORE_URLS=http://+:5000
-ENV CosmosDb__Endpoint=https://cosmos-emulator:8081
-ENV CosmosDb__Key=your-emulator-key
 ENTRYPOINT ["dotnet", "IACSFWebApp.dll"]
