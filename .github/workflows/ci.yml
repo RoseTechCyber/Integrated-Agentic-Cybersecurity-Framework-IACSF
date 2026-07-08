@@ -21,9 +21,9 @@ jobs:
             ${{ runner.os }}-nuget-
       - name: Build & Test
         run: |
-          dotnet restore IACSF.slnx
-          dotnet build IACSF.slnx --configuration Release
-          dotnet test IACSF.slnx --no-build
+          dotnet restore IACSFWebApp.slnx
+          dotnet build IACSFWebApp.slnx --configuration Release
+          dotnet test IACSFWebApp.slnx --no-build
 
   docker-compose-integration:
     needs: [build-test-publish]
