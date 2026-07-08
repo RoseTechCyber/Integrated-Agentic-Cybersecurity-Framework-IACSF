@@ -11,18 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
-
       - uses: actions/cache@v3
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
-
       - name: Build & Test
         run: |
           dotnet restore IACSFWebApp.slnx
@@ -39,13 +36,13 @@ jobs:
       - uses: docker/setup-qemu-action@v2
       - uses: docker/setup-compose-action@v2
 
-      # Build Foundry Service image locally
+      # Build Foundry Service image
       - name: Build Foundry Service image
         run: docker build -t foundry-service:latest ./IACSFWebApp
 
-      # Build Reasoning Agent image locally
+      # Build Reasoning Agent image
       - name: Build Reasoning Agent image
-        run: docker build -t reasoning-agent:latest ./web-app/backend
+        run: docker build -t reasoning-agent:latest ./IACSFApp
 
       # Write docker-compose.override.yml
       - name: Write docker-compose.override.yml
@@ -88,6 +85,13 @@ jobs:
         run: |
           for i in {1..30}; do
             curl -s http://localhost:8080/status && echo "Foundry is ready!" && break
+            sleep 2
+          done
+
+      - name: Wait for Reasoning Agent
+        run: |
+          for i in {1..30}; do
+            curl -s http://localhost:9090/status && echo "Reasoning Agent is ready!" && break
             sleep 2
           done
 
