@@ -44,10 +44,6 @@ jobs:
       - name: Install Aspire CLI
         run: dotnet tool install --global Microsoft.Aspire.Cli
 
-      # --- Docker build for backend reasoning agent ---
-      - name: Build backend reasoning agent Docker image
-        run: docker build -t reasoning-agent ./IACSFApp/appmain
-
       - name: Run Aspire services
         run: aspire run --file aspire.yml --non-interactive & sleep 30
 
@@ -78,14 +74,19 @@ jobs:
           python-version: '3.11'
 
       - name: Install Python dependencies
-        run: pip install -r IACSFApp/appmain/requirements.txt
+        run: pip install -r web-app/backend/requirements.txt
+
+      - name: Run WebApp only (PR)
+        if: github.event_name == 'pull_request'
+        run: |
+          dotnet publish IACSFApp/IACSFWebApp.csproj -c Release -o out
+          pytest tests/test_core.py -q
 
       - name: Run full integration (Push to main)
+        if: github.event_name == 'push'
         run: |
-          echo "Running full Aspire integration (WebApp + App)..."
           dotnet publish IACSFWebApp/IACSFWebApp.csproj -c Release -o out
           dotnet publish IACSFApp/IACSFApp.csproj -c Release -o out
-          python IACSFApp/appmain/main.py
           pytest tests/test_core.py -q
           python tests/test_cosmos_integration.py
           python tests/test_foundry_integration.py

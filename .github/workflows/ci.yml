@@ -40,7 +40,7 @@ jobs:
       - name: Build Foundry Service image
         run: docker build -t foundry-service:latest ./IACSFWebApp
 
-      # Build Reasoning Agent image
+      # Build Reasoning Agent hosting image
       - name: Build Reasoning Agent image
         run: docker build -t reasoning-agent:latest ./IACSFApp
 
