@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-workflow_dispatch:
+  pull_request:
     branches:
       - main
 jobs:
@@ -32,6 +32,7 @@ jobs:
           dotnet restore IACSFApp.slnx
           dotnet build IACSFApp.slnx --configuration Release
           dotnet test IACSFApp.slnx --no-build
+          
  # Step 2: Build local Docker images and run integration with Compose
   docker-compose-integration:
     needs: [build-test-publish]
