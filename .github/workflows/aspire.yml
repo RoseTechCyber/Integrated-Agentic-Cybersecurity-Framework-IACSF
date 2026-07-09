@@ -78,8 +78,8 @@ jobs:
           python-version: '3.11'
 
       - name: Install Python dependencies
-        run: pip install -r /IACSFApp/appmain/requirements.txt
-        run: pip install -r /agents/requirements.txt
+        run: pip install -r ./IACSFApp/appmain/requirements.txt
+        run: pip install -r ./agents/requirements.txt
 
       - name: Run full integration (Push to main)
         run: |
