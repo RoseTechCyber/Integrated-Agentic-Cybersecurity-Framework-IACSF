@@ -25,6 +25,14 @@ jobs:
           dotnet restore IACSF.slnx
           dotnet build IACSF.slnx --configuration Release
           dotnet test IACSF.slnx --no-build
+          dotnet restore IACSFWebApp.slnx
+          dotnet build IACSFWebApp.slnx --configuration Release
+          dotnet test IACSFWebApp.slnx --no-build
+          dotnet restore IACSFApp.slnx
+          dotnet build IACSFApp.slnx --configuration Release
+          dotnet test IACSFApp.slnx --no-build
+          dotnet restore IACSFWebApp/IACSFWebApp.csproj
+          dotnet restore IACSFAPP/IACSFApp.csproj
 
   # Step 2: Build local Docker images and run integration with Compose
   docker-compose-integration:
