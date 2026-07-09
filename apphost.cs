@@ -1,13 +1,12 @@
+#:sdk Aspire.AppHost.Sdk@13.4.3+4f218933552e18ff2874d1b6d5dc3fe671e3b6d9
 using Microsoft.Extensions.Hosting;
 using Aspire.Hosting;
-
 var builder = DistributedApplication.CreateBuilder(args);
-
+// The aspireify skill will wire up your projects here.
 // Cosmos DB Emulator
 var cosmosEmulator = builder.AddContainer("cosmosdbemulator", "mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest")
     .WithHttpEndpoint(port: 8081, targetPort: 8081)
     .WithPrivileged();
-
 // Foundry Service
 var foundryService = builder.AddProject<IACSFWebApp>("foundry-service")
     .WithHttpEndpoint(port: 8080);
