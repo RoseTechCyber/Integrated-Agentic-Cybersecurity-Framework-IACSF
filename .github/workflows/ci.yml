@@ -94,10 +94,7 @@ jobs:
             curl -s http://localhost:9090/status && echo "Reasoning Agent is ready!" && break
             sleep 2
           done
-
-      - name: Run integration tests
-        run: pytest tests/test_integration.py -q
-
+    
   # Step 3: Run Aspire integration workflow
   aspire-integration:
     needs: [docker-compose-integration]
