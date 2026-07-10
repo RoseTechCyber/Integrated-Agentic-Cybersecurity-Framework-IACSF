@@ -6,6 +6,7 @@
     <PublishProfile>DefaultContainer</PublishProfile>
     <ContainerImageName>foundry-service</ContainerImageName>
     <ContainerImageTag>latest</ContainerImageTag>
+    <AzureCosmosDisableNewtonsoftJsonCheck>true</AzureCosmosDisableNewtonsoftJsonCheck>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.*" />

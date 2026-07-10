@@ -78,15 +78,17 @@ jobs:
           python-version: '3.11'
 
       - name: Install Python dependencies
-        run: pip install -r IACSFApp/appmain/requirements.txt
+        run: |
+             pip install -r IACSFApp/appmain/requirements.txt
+             pip install -r agents/requirements.txt
 
       - name: Run full integration (Push to main)
         run: |
-          echo "Running full Aspire integration (WebApp + App)..."
+          echo "Running  Aspire integration (WebApp + App)..."
           dotnet publish IACSFWebApp/IACSFWebApp.csproj -c Release -o out
           dotnet publish IACSFApp/IACSFApp.csproj -c Release -o out
           python IACSFApp/appmain/main.py
-          pytest tests/test_core.py -q
-          python tests/test_cosmos_integration.py
-          python tests/test_foundry_integration.py
-          pytest tests/test_integration.py -q
+          pytest agents/tests/test_core.py -q
+          python agents/tests/test_cosmos_integration.py
+          python agentstests/test_foundry_integration.py
+          pytest agents/tests/test_integration.py -q
