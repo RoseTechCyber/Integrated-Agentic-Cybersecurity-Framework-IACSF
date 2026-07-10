@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-     <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.*" />
-   </ItemGroup>
+    <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.*" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\IACSFWebApp\IACSFWebApp.csproj" />
