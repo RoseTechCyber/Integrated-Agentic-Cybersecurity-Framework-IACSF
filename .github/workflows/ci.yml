@@ -23,7 +23,6 @@ jobs:
             ${{ runner.os }}-nuget-
       - name: Build & Test
         run: |
-<<<<<<< HEAD
           dotnet restore apphost.csproj
           dotnet build apphost.csproj--configuration Release
           dotnet test apphost.csproj --no-build
@@ -34,20 +33,7 @@ jobs:
           dotnet build IACSFApp/IACSFApp.csproj--configuration Release
           dotnet test IACSFApp/IACSFApp.csproj --no-build
 
-  # Step 2: Build local Docker images and run integration with Compose
-=======
-          dotnet restore IACSF.slnx
-          dotnet build IACSF.slnx --configuration Release
-          dotnet test IACSF.slnx --no-build
-          dotnet restore IACSFWebApp.slnx
-          dotnet build IACSFWebApp.slnx --configuration Release
-          dotnet test IACSFWebApp.slnx --no-build
-          dotnet restore IACSFApp.slnx
-          dotnet build IACSFApp.slnx --configuration Release
-          dotnet test IACSFApp.slnx --no-build
-          
- # Step 2: Build local Docker images and run integration with Compose
->>>>>>> 0f49bab0a6ec90750e0cf941e320f4f952dc1b7b
+# Step 2: Build local Docker images and run integration with Compose
   docker-compose-integration:
     needs: [build-test-publish]
     runs-on: ubuntu-latest
