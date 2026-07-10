@@ -85,8 +85,10 @@ jobs:
       - name: Run full integration (Push to main)
         run: |
           echo "Running  Aspire integration (WebApp + App)..."
+          dotnet publish apphost.csproj -c Release -o out
           dotnet publish IACSFWebApp/IACSFWebApp.csproj -c Release -o out
           dotnet publish IACSFApp/IACSFApp.csproj -c Release -o out
+          python main.py
           python IACSFApp/appmain/main.py
           pytest agents/tests/test_core.py -q
           python agents/tests/test_cosmos_integration.py
