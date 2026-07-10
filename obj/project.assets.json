@@ -1,0 +1,176 @@
+{
+  "version": 4,
+  "targets": {
+    "net8.0": {
+      "Aspire.AppHost.Sdk/9.0.0": {
+        "type": "package"
+      }
+    }
+  },
+  "libraries": {
+    "Aspire.AppHost.Sdk/9.0.0": {
+      "sha512": "6NRU9/xY+dK/0qrMR1wBpFje7rENO+l08TwfLZ9u50SgqlndxBFxXZh9ECBgB38TGZtRo2goslylbsAao1ku+w==",
+      "type": "package",
+      "path": "aspire.apphost.sdk/9.0.0",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "Sdk/AutoImport.props",
+        "Sdk/Sdk.props",
+        "Sdk/Sdk.targets",
+        "THIRD-PARTY-NOTICES.TXT",
+        "aspire.apphost.sdk.9.0.0.nupkg.sha512",
+        "aspire.apphost.sdk.nuspec",
+        "tools/net8.0/Aspire.RuntimeIdentifier.Tool.deps.json",
+        "tools/net8.0/Aspire.RuntimeIdentifier.Tool.dll",
+        "tools/net8.0/Aspire.RuntimeIdentifier.Tool.runtimeconfig.json",
+        "tools/net8.0/Aspire.RuntimeIdentifier.Tool.xml",
+        "tools/net8.0/Newtonsoft.Json.dll",
+        "tools/net8.0/NuGet.Common.dll",
+        "tools/net8.0/NuGet.Configuration.dll",
+        "tools/net8.0/NuGet.DependencyResolver.Core.dll",
+        "tools/net8.0/NuGet.Frameworks.dll",
+        "tools/net8.0/NuGet.LibraryModel.dll",
+        "tools/net8.0/NuGet.Packaging.dll",
+        "tools/net8.0/NuGet.ProjectModel.dll",
+        "tools/net8.0/NuGet.Protocol.dll",
+        "tools/net8.0/NuGet.Versioning.dll",
+        "tools/net8.0/System.CommandLine.dll",
+        "tools/net8.0/System.Security.Cryptography.Pkcs.dll",
+        "tools/net8.0/System.Security.Cryptography.ProtectedData.dll",
+        "tools/net8.0/cs/cs/System.CommandLine.resources.dll",
+        "tools/net8.0/de/de/System.CommandLine.resources.dll",
+        "tools/net8.0/es/es/System.CommandLine.resources.dll",
+        "tools/net8.0/fr/fr/System.CommandLine.resources.dll",
+        "tools/net8.0/it/it/System.CommandLine.resources.dll",
+        "tools/net8.0/ja/ja/System.CommandLine.resources.dll",
+        "tools/net8.0/ko/ko/System.CommandLine.resources.dll",
+        "tools/net8.0/pl/pl/System.CommandLine.resources.dll",
+        "tools/net8.0/pt-BR/pt-BR/System.CommandLine.resources.dll",
+        "tools/net8.0/ru/ru/System.CommandLine.resources.dll",
+        "tools/net8.0/runtimes/win/lib/net6.0/runtimes/win/lib/net6.0/System.Security.Cryptography.Pkcs.dll",
+        "tools/net8.0/runtimes/win/lib/netstandard2.0/runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll",
+        "tools/net8.0/tr/tr/System.CommandLine.resources.dll",
+        "tools/net8.0/zh-Hans/zh-Hans/System.CommandLine.resources.dll",
+        "tools/net8.0/zh-Hant/zh-Hant/System.CommandLine.resources.dll"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "Aspire.AppHost.Sdk >= 8.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\RoseTech\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\apphost.csproj",
+      "projectName": "apphost",
+      "projectPath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\apphost.csproj",
+      "packagesPath": "C:\\Users\\RoseTech\\.nuget\\packages\\",
+      "outputPath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\NuGet.Config",
+        "C:\\Users\\RoseTech\\AppData\\Roaming\\NuGet\\NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "framework": "net8.0",
+          "targetAlias": "net8.0",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "10.0.300"
+    },
+    "frameworks": {
+      "net8.0": {
+        "framework": "net8.0",
+        "targetAlias": "net8.0",
+        "dependencies": {
+          "Aspire.AppHost.Sdk": {
+            "target": "Package",
+            "version": "[8.0.0, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.28, 8.0.28]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[8.0.28, 8.0.28]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[8.0.28, 8.0.28]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[8.0.28, 8.0.28]"
+          }
+        ],
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  },
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "apphost depends on Aspire.AppHost.Sdk (>= 8.0.0) but Aspire.AppHost.Sdk 8.0.0 was not found. Aspire.AppHost.Sdk 9.0.0 was resolved instead.",
+      "libraryId": "Aspire.AppHost.Sdk",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1213",
+      "level": "Error",
+      "message": "The package Aspire.AppHost.Sdk 9.0.0 has a package type DotnetPlatform that is incompatible with this project. ",
+      "libraryId": "Aspire.AppHost.Sdk",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
+}

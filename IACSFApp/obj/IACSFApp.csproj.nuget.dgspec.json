@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFApp\\IACSFAPP.csproj": {}
+    "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFApp\\IACSFApp.csproj": {}
   },
   "projects": {
-    "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFApp\\IACSFAPP.csproj": {
+    "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFApp\\IACSFApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFApp\\IACSFAPP.csproj",
-        "projectName": "IACSFAPP",
-        "projectPath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFApp\\IACSFAPP.csproj",
+        "projectUniqueName": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFApp\\IACSFApp.csproj",
+        "projectName": "IACSFApp",
+        "projectPath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFApp\\IACSFApp.csproj",
         "packagesPath": "C:\\Users\\RoseTech\\.nuget\\packages\\",
         "outputPath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFApp\\obj\\",
         "projectStyle": "PackageReference",
@@ -63,6 +63,10 @@
             "Microsoft.Extensions.Logging.Console": {
               "target": "Package",
               "version": "[8.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             }
           },
           "imports": [

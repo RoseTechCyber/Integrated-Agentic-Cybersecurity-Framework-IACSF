@@ -1322,6 +1322,19 @@
           }
         }
       },
+      "Newtonsoft.Json/13.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Polly.Core/8.3.1": {
         "type": "package",
         "compile": {
@@ -3494,6 +3507,36 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "Newtonsoft.Json/13.0.3": {
+      "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
+      "type": "package",
+      "path": "newtonsoft.json/13.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/net6.0/Newtonsoft.Json.dll",
+        "lib/net6.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "newtonsoft.json.13.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
     "Polly.Core/8.3.1": {
       "sha512": "b9mMAjqXuCXFCtf/RtRPwFUkAm/sz37s7G+taDvS5EqfkJsLiWfO2xO2cSISjIgIY+88oIZTGguP6UrRGRlqzg==",
       "type": "package",
@@ -4254,7 +4297,8 @@
       "Aspire.Hosting >= 8.0.0-preview.*",
       "Aspire.Hosting.Azure >= 8.0.0-preview.*",
       "Microsoft.Azure.Cosmos >= 3.*",
-      "Microsoft.Extensions.Logging.Console >= 8.0.0"
+      "Microsoft.Extensions.Logging.Console >= 8.0.0",
+      "Newtonsoft.Json >= 13.0.3"
     ]
   },
   "packageFolders": {
@@ -4263,9 +4307,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFApp\\IACSFAPP.csproj",
-      "projectName": "IACSFAPP",
-      "projectPath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFApp\\IACSFAPP.csproj",
+      "projectUniqueName": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFApp\\IACSFApp.csproj",
+      "projectName": "IACSFApp",
+      "projectPath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFApp\\IACSFApp.csproj",
       "packagesPath": "C:\\Users\\RoseTech\\.nuget\\packages\\",
       "outputPath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFApp\\obj\\",
       "projectStyle": "PackageReference",
@@ -4319,6 +4363,10 @@
           "Microsoft.Extensions.Logging.Console": {
             "target": "Package",
             "version": "[8.0.0, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
           }
         },
         "imports": [

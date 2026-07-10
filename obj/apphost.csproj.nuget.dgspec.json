@@ -1,20 +1,19 @@
 {
   "format": 1,
   "restore": {
-    "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFWebApp\\IACSFWebApp.csproj": {}
+    "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\apphost.csproj": {}
   },
   "projects": {
-    "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFWebApp\\IACSFWebApp.csproj": {
+    "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\apphost.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFWebApp\\IACSFWebApp.csproj",
-        "projectName": "IACSFWebApp",
-        "projectPath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFWebApp\\IACSFWebApp.csproj",
+        "projectUniqueName": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\apphost.csproj",
+        "projectName": "apphost",
+        "projectPath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\apphost.csproj",
         "packagesPath": "C:\\Users\\RoseTech\\.nuget\\packages\\",
-        "outputPath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFWebApp\\obj\\",
+        "outputPath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\IACSFWebApp\\NuGet.Config",
           "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\NuGet.Config",
           "C:\\Users\\RoseTech\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
@@ -48,25 +47,9 @@
           "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
-            "Aspire.Hosting": {
-              "target": "Package",
-              "version": "[8.0.0-preview.*, )"
-            },
-            "Aspire.Hosting.Azure": {
-              "target": "Package",
-              "version": "[8.0.0-preview.*, )"
-            },
-            "Microsoft.Azure.Cosmos": {
-              "target": "Package",
-              "version": "[3.*, )"
-            },
-            "Microsoft.Extensions.Logging.Console": {
+            "Aspire.AppHost.Sdk": {
               "target": "Package",
               "version": "[8.0.0, )"
-            },
-            "Newtonsoft.Json": {
-              "target": "Package",
-              "version": "[13.0.3, )"
             }
           },
           "imports": [
@@ -99,9 +82,6 @@
             }
           ],
           "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }

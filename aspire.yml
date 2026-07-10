@@ -1,0 +1,92 @@
+name: Aspire Integration Workflow
+
+on:
+  workflow_call:
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    services:
+      cosmosdbemulator:
+        image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
+        ports:
+          - 8081:8081
+          - 10250-10254:10250-10254
+        options: --privileged
+
+      foundry:
+        image: foundry-service:latest
+        ports:
+          - 8080:8080
+
+      reasoning-agent:
+        image: reasoning-agent:latest
+        ports:
+          - 9090:9090
+        options: --privileged
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Install Aspire CLI
+        run: dotnet tool install --global Microsoft.Aspire.Cli
+
+      # --- Docker build for backend reasoning agent ---
+      - name: Build backend reasoning agent Docker image
+        run: docker build -t reasoning-agent ./IACSFApp/appmain
+
+      - name: Run Aspire services
+        run: aspire run --file aspire.yml --non-interactive & sleep 30
+
+      - name: Wait for Cosmos DB Emulator
+        run: |
+          for i in {1..30}; do
+            curl -k https://localhost:8081/_explorer/emulator.pem && echo "Cosmos DB Emulator is ready!" && break
+            sleep 2
+          done
+
+      - name: Wait for Foundry service
+        run: |
+          for i in {1..30}; do
+            curl -s http://localhost:8080/status && echo "Foundry is ready!" && break
+            sleep 2
+          done
+
+      - name: Wait for Reasoning Agent
+        run: |
+          for i in {1..30}; do
+            curl -s http://localhost:9090/status && echo "Reasoning Agent is ready!" && break
+            sleep 2
+          done
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install -r IACSFApp/appmain/requirements.txt
+
+      - name: Run full integration (Push to main)
+        run: |
+          echo "Running full Aspire integration (WebApp + App)..."
+          dotnet publish IACSFWebApp/IACSFWebApp.csproj -c Release -o out
+          dotnet publish IACSFApp/IACSFApp.csproj -c Release -o out
+          python IACSFApp/appmain/main.py
+          pytest tests/test_core.py -q
+          python tests/test_cosmos_integration.py
+          python tests/test_foundry_integration.py
+          pytest tests/test_integration.py -q

@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "dgSpecHash": "nshmjgqES1A=",
+  "success": false,
+  "projectFilePath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\apphost.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\RoseTech\\.nuget\\packages\\aspire.apphost.sdk\\9.0.0\\aspire.apphost.sdk.9.0.0.nupkg.sha512",
+    "C:\\Users\\RoseTech\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.28\\microsoft.netcore.app.ref.8.0.28.nupkg.sha512",
+    "C:\\Users\\RoseTech\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.28\\microsoft.windowsdesktop.app.ref.8.0.28.nupkg.sha512",
+    "C:\\Users\\RoseTech\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.28\\microsoft.aspnetcore.app.ref.8.0.28.nupkg.sha512",
+    "C:\\Users\\RoseTech\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.28\\microsoft.netcore.app.host.win-x64.8.0.28.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "message": "apphost depends on Aspire.AppHost.Sdk (>= 8.0.0) but Aspire.AppHost.Sdk 8.0.0 was not found. Aspire.AppHost.Sdk 9.0.0 was resolved instead.",
+      "projectPath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\apphost.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\apphost.csproj",
+      "libraryId": "Aspire.AppHost.Sdk",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1213",
+      "level": "Error",
+      "message": "The package Aspire.AppHost.Sdk 9.0.0 has a package type DotnetPlatform that is incompatible with this project. ",
+      "projectPath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\apphost.csproj",
+      "filePath": "C:\\msbuild\\Integrated-Agentic-Cybersecurity-Framework-IACSF\\apphost.csproj",
+      "libraryId": "Aspire.AppHost.Sdk",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
+}
