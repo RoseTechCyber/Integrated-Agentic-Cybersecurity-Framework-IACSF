@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-v2
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
@@ -21,6 +24,8 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
+     
+       
       - name: Build & Test
         run: |
           dotnet restore apphost.csproj
