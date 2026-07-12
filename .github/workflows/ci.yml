@@ -6,6 +6,7 @@ on:
   pull_request:
     branches:
       - main
+ workflow_dispatch:
 jobs:
   # Step 1: Build and test your .NET solution
   build-test-publish:
