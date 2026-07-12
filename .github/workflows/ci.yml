@@ -7,7 +7,7 @@ on:
     branches:
       - main
  jobs:
-  # Step 1: Build and test your .NET solution
+ # Step 1: Build and test your .NET solution
   build-test-publish:
     runs-on: ubuntu-latest
     steps:
