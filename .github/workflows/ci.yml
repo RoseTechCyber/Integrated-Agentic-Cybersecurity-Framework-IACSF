@@ -7,7 +7,7 @@ on:
     branches:
       - main
 jobs:
- # Step 1: Build and test your .NET solution
+  # Step 1: Build and test your .NET solution
   build-test-publish:
     runs-on: ubuntu-latest
     steps:
@@ -107,7 +107,7 @@ jobs:
             sleep 2
           done
     
-  # Step 3: Run Aspire integration workflow
+  # #Step 3: Run Aspire integration workflow
   aspire-integration:
     needs: [docker-compose-integration]
     uses: ./.github/workflows/aspire.yml
