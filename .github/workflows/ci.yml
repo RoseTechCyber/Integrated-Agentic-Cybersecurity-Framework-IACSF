@@ -108,7 +108,7 @@ jobs:
             sleep 2
           done
     
-  # #Step 3: Run Aspire integration workflow
+  # Step 3: Run Aspire integration workflow
   aspire-integration:
     needs: [docker-compose-integration]
     uses: ./.github/workflows/aspire.yml
